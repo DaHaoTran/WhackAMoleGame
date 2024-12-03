@@ -9,7 +9,11 @@ export class canvas extends Component {
     timeLabel: Node = null;
     @property(Node)
     subMenu: Node = null;
-    private remainingTime: number = 30;
+    @property(Node)
+    startLabel: Node = null;
+    private isStart = false;
+    private remainingTime: number = 3;
+    private remainingTime2: number = 3;
     private molExist: boolean = true;
     private moles: Node[] = [];
     private moleScale: any = { 'x': 0.951, 'y': 0.529 }
@@ -52,42 +56,70 @@ export class canvas extends Component {
         }
     ]
     start() {
-        //Ẩn sub menu
-        this.subMenu = find('Canvas/SubMenu');
-        this.subMenu.active = false;
+        //Lấy timeLabel
+        this.timeLabel = find('Canvas/TimeCounterDown');
+        //Lấy startLabel
+        this.startLabel = find('Canvas/StartCounter');
         //Lấy moleNode
         this.moleNode = find('Canvas/Mole');
         //Lấy mảng mole trong colllection
         this.moles = find('MoleCollection').children;
-        //Lấy timeLabel
-        this.timeLabel = find('Canvas/TimeCounterDown');
+        //Ẩn sub menu
+        this.subMenu = find('Canvas/SubMenu');
+        this.subMenu.active = false;
+        //
+        this.isStart = false;
     }
 
     onLoad() {
         // Cập nhật ngay lập tức để hiển thị thời gian ban đầu
         this.updateTimeLabel();
 
+        // Cập nhật ngay lập tức để hiển thị thời gian ban đầu
+        this.updateStartLabel();
+
         // Bắt đầu bộ đếm ngược 
-        this.schedule(this.updateTimer, 1);
+        this.schedule(this.updateStartTimer, 1);
 
         // Đăng ký sự kiện hoặc điều kiện để dừng game
         this.node.on('stopGame', this.stopGame, this);
     }
 
-    updateTimer() 
-    { 
-        if (this.remainingTime > 0) 
+    updateStartTimer() {
+        if (this.remainingTime2 > 0) 
         { 
-            this.remainingTime--; 
-            this.updateTimeLabel(); 
+            this.remainingTime2--; 
+            this.updateStartLabel(); 
         } 
         else 
         { 
-            // Hết giờ, dừng game
-            this.stopGame();
-            //Hiện sub menu
-            this.subMenu.active = true;
+            // Hết giờ
+            this.isStart = true;
+            //Ẩn start label
+            this.startLabel.active = false;
+            // Bắt đầu bộ đếm ngược 
+            this.schedule(this.updateTimer, 1);
+            //Hiện mole
+            this.moleNode.active = true;
         } 
+    }
+
+    updateTimer() 
+    { 
+        if(this.isStart) {
+            if (this.remainingTime > 0) 
+            { 
+                this.remainingTime--; 
+                this.updateTimeLabel(); 
+            } 
+            else 
+            { 
+                // Hết giờ, dừng game
+                this.stopGame();
+                //Hiện sub menu
+                this.subMenu.active = true;
+            } 
+        }
     } 
     
     updateTimeLabel() 
@@ -98,9 +130,17 @@ export class canvas extends Component {
         }
     }
 
+    updateStartLabel() {
+        if(this.startLabel) {
+            this.startLabel.getComponent(Label).string = this.remainingTime2.toString();
+        }
+    }
+
     update(deltaTime: number) {
-        if(this.molExist) {
-            this.randomMole();
+        if(this.isStart) {
+            if(this.molExist) {
+                this.randomMole();
+            }
         }
     }
 
@@ -134,10 +174,15 @@ export class canvas extends Component {
     }
 
     resetGame() {
+        this.isStart = false;
         this.remainingTime = 30;
+        this.remainingTime2 = 3;
         this.updateTimeLabel();
+        this.updateStartLabel();
         this.subMenu.active = false;
+        this.startLabel.active = true;
         director.resume();
+        this.onLoad();
     }
 }
 

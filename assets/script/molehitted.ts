@@ -60,7 +60,9 @@ export class molehitted extends Component {
                 //Play hiệu hứng đập trúng chuột
                 this.explosound.getComponent(AudioSource).play();
                 // Giảm hit count
-                this.counthit -= 1;
+                if(this.counthit - 1 > 0) {
+                    this.counthit -= 1;
+                }
                 //Hiển thị hit count
                 this.updateHitCounter();
             }
