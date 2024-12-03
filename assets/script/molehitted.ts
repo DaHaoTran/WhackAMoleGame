@@ -1,4 +1,4 @@
-import { _decorator, Color, resources, Component, Node, Input, EventMouse, Sprite, SpriteFrame, assetManager, find, Vec2, UITransform, Vec3, math, AudioSource, Label, PostProcessStage } from 'cc';
+import { _decorator, Color, systemEvent, resources, Component, Node, Input, EventMouse, Sprite, SpriteFrame, assetManager, find, Vec2, UITransform, Vec3, math, AudioSource, Label, PostProcessStage, director } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('molehitted')
@@ -6,13 +6,17 @@ export class molehitted extends Component {
     @property(Node)
     private moleNode: Node = null;
     @property(Node)
-    private hitSoundNode : Node = null
+    private hitSoundNode : Node = null;
     @property(Node)
-    private hitCounter: Node = null
+    private hitCounter: Node = null;
     @property(Node)
-    private moleBom: Node = null
+    private moleBom: Node = null;
     @property(Node)
-    private explosound: Node = null
+    private explosound: Node = null;
+    @property(Node)
+    scoreLabel: Node = null;
+    @property(Node)
+    highScoreLabel: Node = null;
     private counthit: number = 0
     private moleScale: any = { 'x': 0.951, 'y': 0.317 }
     start() {
@@ -30,6 +34,19 @@ export class molehitted extends Component {
         this.explosound = find('Sounds/ExplosionSound');
         //Đăng ký sự kiện click chuột
         this.node.on(Input.EventType.MOUSE_DOWN, this.onMouseDown, this);
+    }
+
+    onLoad() {
+        // Lấy score label
+        this.scoreLabel = find('Canvas/SubMenu/Score');
+        // Lấy high score label
+        this.highScoreLabel = find('Canvas/SubMenu/HighScore');
+        // Đăng ký sự kiện 'game-paused' 
+        systemEvent.on('game-paused', this.onGamePaused, this);
+    }
+
+    onGamePaused() {
+        this.showresult();
     }
 
     onMouseDown(event: EventMouse) {
@@ -63,6 +80,18 @@ export class molehitted extends Component {
 
     updateHitCounter() {
         this.hitCounter.getComponent(Label).string = "Hit: " + this.counthit;
+    }
+
+    resetGame() {
+        this.counthit = 0
+        this.updateHitCounter();
+    }
+
+    showresult() {
+        //Hiện score đạt được
+        this.scoreLabel.getComponent(Label).string = "Score: " + this.counthit;
+        //Hiện score cao nhất
+        this.highScoreLabel.getComponent(Label).string = "High Score: " + this.counthit;
     }
 }
 

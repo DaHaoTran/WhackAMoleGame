@@ -1,4 +1,4 @@
-import { _decorator, Color, resources, Component, Node, Input, EventMouse, Sprite, SpriteFrame, assetManager, find, Vec2, UITransform, Vec3, math, Label, director } from 'cc';
+import { _decorator, systemEvent, Color, resources, Component, Node, Input, EventMouse, Sprite, SpriteFrame, assetManager, find, Vec2, UITransform, Vec3, math, Label, director } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('canvas')
@@ -7,6 +7,8 @@ export class canvas extends Component {
     moleNode: Node = null;
     @property(Node)
     timeLabel: Node = null;
+    @property(Node)
+    subMenu: Node = null;
     private remainingTime: number = 30;
     private molExist: boolean = true;
     private moles: Node[] = [];
@@ -50,6 +52,9 @@ export class canvas extends Component {
         }
     ]
     start() {
+        //Ẩn sub menu
+        this.subMenu = find('Canvas/SubMenu');
+        this.subMenu.active = false;
         //Lấy moleNode
         this.moleNode = find('Canvas/Mole');
         //Lấy mảng mole trong colllection
@@ -80,6 +85,8 @@ export class canvas extends Component {
         { 
             // Hết giờ, dừng game
             this.stopGame();
+            //Hiện sub menu
+            this.subMenu.active = true;
         } 
     } 
     
@@ -119,7 +126,18 @@ export class canvas extends Component {
     
     stopGame() 
     { 
+        //Ẩn mole
+        this.moleNode.active = false;
         director.pause();  
+        // Phát sự kiện tùy chỉnh 'game-paused' 
+        systemEvent.emit('game-paused');
+    }
+
+    resetGame() {
+        this.remainingTime = 30;
+        this.updateTimeLabel();
+        this.subMenu.active = false;
+        director.resume();
     }
 }
 
