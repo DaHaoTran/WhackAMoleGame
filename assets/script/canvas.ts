@@ -1,5 +1,6 @@
 import { _decorator, systemEvent, Color, resources, Component, Node, Input, EventMouse, Sprite, SpriteFrame, assetManager, find, Vec2, UITransform, Vec3, math, Label, director } from 'cc';
 const { ccclass, property } = _decorator;
+const _eventTarget = new EventTarget();
 
 @ccclass('canvas')
 export class canvas extends Component {
@@ -11,6 +12,8 @@ export class canvas extends Component {
     subMenu: Node = null;
     @property(Node)
     startLabel: Node = null;
+    @property(Node)
+    canvasNode: Node = null;
     private isStart = false;
     private remainingTime: number = 3;
     private remainingTime2: number = 3;
@@ -56,6 +59,9 @@ export class canvas extends Component {
         }
     ]
     start() {
+        //Lấy canvasNode
+        this.canvasNode = find('Canvas');
+        this.canvasNode.active = false;
         //Lấy timeLabel
         this.timeLabel = find('Canvas/TimeCounterDown');
         //Lấy startLabel
@@ -83,6 +89,16 @@ export class canvas extends Component {
 
         // Đăng ký sự kiện hoặc điều kiện để dừng game
         this.node.on('stopGame', this.stopGame, this);
+
+        //Đăng ký sự kiện hoặc điều kiện để reset game
+        this.node.on('back-menu', this.resetGame, this);
+    }
+
+    protected onDestroy(): void {
+        //Hủy các sự kiện đăng ký
+        this.node.off('stopGame', this.stopGame, this);
+        // Hủy tất cả các lịch trình đã lên lịch trên scheduler 
+        director.getScheduler().unschedule(this.updateStartTimer, this);
     }
 
     updateStartTimer() {
@@ -132,7 +148,12 @@ export class canvas extends Component {
 
     updateStartLabel() {
         if(this.startLabel) {
-            this.startLabel.getComponent(Label).string = this.remainingTime2.toString();
+            if(this.remainingTime2 > 0) {
+                this.startLabel.getComponent(Label).string = this.remainingTime2.toString();
+            }
+            else {
+                this.startLabel.getComponent(Label).string = "GO";
+            }
         }
     }
 
@@ -175,7 +196,7 @@ export class canvas extends Component {
 
     resetGame() {
         this.isStart = false;
-        this.remainingTime = 30;
+        this.remainingTime = 3;
         this.remainingTime2 = 3;
         this.updateTimeLabel();
         this.updateStartLabel();

@@ -1,11 +1,30 @@
-import { _decorator, Component, Node, director } from 'cc';
+import { _decorator, Component, Node, director, find } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('backtohome')
 export class backtohome extends Component {
-    
+    @property(Node)
+    canvasNode: Node = null;
+    @property(Node)
+    menuNode: Node = null
+    protected start(): void {
+        //Lấy cavas node
+        this.canvasNode = find('Canvas');
+        //Lấy menu node
+        this.menuNode = find('Menu');
+
+    }
     backToMenu() {
-        director.loadScene('MenuScene');
+        if(this.canvasNode) {
+            //Phát sự kiện reset game
+            this.canvasNode.emit('back-menu');
+            //Ẩn gameplay
+            this.canvasNode.active = false;
+        }
+        //Hiện menu
+        if(this.menuNode) {
+            this.menuNode.active = true;
+        }
     }
 }
 

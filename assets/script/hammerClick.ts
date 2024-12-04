@@ -29,7 +29,9 @@ export class hammerClick extends Component {
                 // Đặt thời gian chờ
                 var update = setTimeout(() => {
                     this.allow = true;
-                    this.hammerNode.active = false;
+                    if(this.hammerNode) {
+                        this.hammerNode.active = false;
+                    }
                 }, 200);
             }
         } 
