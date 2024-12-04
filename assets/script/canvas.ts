@@ -1,4 +1,4 @@
-import { _decorator, systemEvent, Color, resources, Component, Node, Input, EventMouse, Sprite, SpriteFrame, assetManager, find, Vec2, UITransform, Vec3, math, Label, director } from 'cc';
+import { _decorator, systemEvent, Color, resources, Component, Node, Input, EventMouse, Sprite, SpriteFrame, assetManager, find, Vec2, UITransform, Vec3, math, Label, director, EventKeyboard, macro, KeyCode, SystemEvent, UIOpacity } from 'cc';
 const { ccclass, property } = _decorator;
 const _eventTarget = new EventTarget();
 
@@ -13,9 +13,10 @@ export class canvas extends Component {
     @property(Node)
     startLabel: Node = null;
     @property(Node)
-    canvasNode: Node = null;
+    backgroundNode: Node = null;
     private isStart = false;
-    private remainingTime: number = 3;
+    private isPause = false;
+    private remainingTime: number = 30;
     private remainingTime2: number = 3;
     private molExist: boolean = true;
     private moles: Node[] = [];
@@ -59,9 +60,7 @@ export class canvas extends Component {
         }
     ]
     start() {
-        //Lấy canvasNode
-        this.canvasNode = find('Canvas');
-        this.canvasNode.active = false;
+        this.node.active = false;
         //Lấy timeLabel
         this.timeLabel = find('Canvas/TimeCounterDown');
         //Lấy startLabel
@@ -70,9 +69,13 @@ export class canvas extends Component {
         this.moleNode = find('Canvas/Mole');
         //Lấy mảng mole trong colllection
         this.moles = find('MoleCollection').children;
+        //Lấy backgroundNode
+        this.backgroundNode = find('Canvas/BackgroundGame');
         //Ẩn sub menu
         this.subMenu = find('Canvas/SubMenu');
         this.subMenu.active = false;
+        //Đăng ký sự kiện nhấn nút bàn phím
+        systemEvent.on(SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         //
         this.isStart = false;
     }
@@ -93,12 +96,22 @@ export class canvas extends Component {
         //Đăng ký sự kiện hoặc điều kiện để reset game
         this.node.on('back-menu', this.resetGame, this);
     }
-
-    protected onDestroy(): void {
-        //Hủy các sự kiện đăng ký
-        this.node.off('stopGame', this.stopGame, this);
-        // Hủy tất cả các lịch trình đã lên lịch trên scheduler 
-        director.getScheduler().unschedule(this.updateStartTimer, this);
+    
+    onKeyDown(event: EventKeyboard) {
+        if(event.keyCode == macro.KEY.escape) {
+            if(this.isPause==false) {
+                this.isPause = true;
+                this.moleNode.active = false;
+                this.backgroundNode.getComponent(Sprite).color = new Color(128, 128, 128);
+                director.pause();
+            }
+            else {
+                this.isPause = false;
+                this.moleNode.active = true;
+                this.backgroundNode.getComponent(Sprite).color = new Color(255, 255, 255);
+                director.resume();
+            }
+        }
     }
 
     updateStartTimer() {
@@ -196,7 +209,7 @@ export class canvas extends Component {
 
     resetGame() {
         this.isStart = false;
-        this.remainingTime = 3;
+        this.remainingTime = 30;
         this.remainingTime2 = 3;
         this.updateTimeLabel();
         this.updateStartLabel();
