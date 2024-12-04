@@ -21,7 +21,7 @@ export class molehitted extends Component {
     private moleScale: any = { 'x': 0.951, 'y': 0.317 }
     start() {
         //Reset hit count
-        this.counthit = 0
+        this.counthit = 0;
         // Lấy moleNode
         this.moleNode = find('Canvas/Mole');
         // Lấy hitSoundNode
@@ -43,6 +43,8 @@ export class molehitted extends Component {
         this.highScoreLabel = find('Canvas/SubMenu/HighScore');
         // Đăng ký sự kiện 'game-paused' 
         systemEvent.on('game-paused', this.onGamePaused, this);
+        //Đăng ký sự kiện hoặc điều kiện để reset game
+        this.node.on('back-menu', this.resetGame, this);
     }
 
     onGamePaused() {
@@ -85,7 +87,7 @@ export class molehitted extends Component {
     }
 
     resetGame() {
-        this.counthit = 0
+        this.counthit = 0;
         this.updateHitCounter();
     }
 
