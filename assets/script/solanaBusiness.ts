@@ -63,7 +63,7 @@ export class solanaBusiness extends Component {
         setTimeout(() => {
           this.subMenuLabel.getComponent(Label).string = '';
           this.subMenuNode.active = false; 
-        }, 3500);
+        }, 1500);
         return;
       }
       //Kết nối ví

@@ -76,7 +76,7 @@ export class menu extends Component {
             setTimeout(() => {
                 this.subMenuLabel.getComponent(Label).string = '';
                 this.subMenuNode.active = false; 
-              }, 3500);
+              }, 1500);
         }
     }
 }
