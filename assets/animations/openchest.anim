@@ -37,13 +37,16 @@
       },
       {
         "__id__": 60
+      },
+      {
+        "__id__": 72
       }
     ],
     "_exoticAnimation": null,
     "_events": [],
     "_embeddedPlayers": [],
     "_additiveSettings": {
-      "__id__": 72
+      "__id__": 78
     },
     "_auxiliaryCurveEntries": []
   },
@@ -268,8 +271,8 @@
     "__type__": "cc.RealCurve",
     "_times": [
       0,
-      0.6333333333333333,
-      0.6666666666666666
+      0.6333333253860474,
+      0.6666666865348816
     ],
     "_values": [
       {
@@ -328,8 +331,8 @@
     "__type__": "cc.RealCurve",
     "_times": [
       0,
-      0.6333333333333333,
-      0.6666666666666666
+      0.6333333253860474,
+      0.6666666865348816
     ],
     "_values": [
       {
@@ -388,7 +391,7 @@
     "__type__": "cc.RealCurve",
     "_times": [
       0,
-      0.6666666666666666
+      0.6666666865348816
     ],
     "_values": [
       {
@@ -527,8 +530,8 @@
     "__type__": "cc.RealCurve",
     "_times": [
       0.75,
-      1.1666666666666667,
-      1.3333333333333333
+      1.1666666269302368,
+      1.3333333730697632
     ],
     "_values": [
       {
@@ -587,8 +590,8 @@
     "__type__": "cc.RealCurve",
     "_times": [
       0.75,
-      1.1666666666666667,
-      1.3333333333333333
+      1.1666666269302368,
+      1.3333333730697632
     ],
     "_values": [
       {
@@ -647,8 +650,8 @@
     "__type__": "cc.RealCurve",
     "_times": [
       0.75,
-      1.1666666666666667,
-      1.3333333333333333
+      1.1666666269302368,
+      1.3333333730697632
     ],
     "_values": [
       {
@@ -770,7 +773,9 @@
         "leftTangent": 0,
         "leftTangentWeight": 1,
         "easingMethod": 0,
-        "__editorExtras__": null
+        "__editorExtras__": {
+          "broken": null
+        }
       }
     ],
     "preExtrapolation": 1,
@@ -798,7 +803,9 @@
         "leftTangent": 0,
         "leftTangentWeight": 1,
         "easingMethod": 0,
-        "__editorExtras__": null
+        "__editorExtras__": {
+          "broken": null
+        }
       }
     ],
     "preExtrapolation": 1,
@@ -826,7 +833,9 @@
         "leftTangent": 0,
         "leftTangentWeight": 1,
         "easingMethod": 0,
-        "__editorExtras__": null
+        "__editorExtras__": {
+          "broken": null
+        }
       }
     ],
     "preExtrapolation": 1,
@@ -954,9 +963,7 @@
         "leftTangent": 0,
         "leftTangentWeight": 1,
         "easingMethod": 0,
-        "__editorExtras__": {
-          "tangentMode": 0
-        }
+        "__editorExtras__": null
       }
     ],
     "preExtrapolation": 1,
@@ -984,9 +991,7 @@
         "leftTangent": 0,
         "leftTangentWeight": 1,
         "easingMethod": 0,
-        "__editorExtras__": {
-          "tangentMode": 0
-        }
+        "__editorExtras__": null
       }
     ],
     "preExtrapolation": 1,
@@ -1014,9 +1019,7 @@
         "leftTangent": 0,
         "leftTangentWeight": 1,
         "easingMethod": 0,
-        "__editorExtras__": {
-          "tangentMode": 0
-        }
+        "__editorExtras__": null
       }
     ],
     "preExtrapolation": 1,
@@ -1044,13 +1047,59 @@
         "leftTangent": 0,
         "leftTangentWeight": 1,
         "easingMethod": 0,
-        "__editorExtras__": {
-          "tangentMode": 0
-        }
+        "__editorExtras__": null
       }
     ],
     "preExtrapolation": 1,
     "postExtrapolation": 1
+  },
+  {
+    "__type__": "cc.animation.ObjectTrack",
+    "_binding": {
+      "__type__": "cc.animation.TrackBinding",
+      "path": {
+        "__id__": 73
+      },
+      "proxy": null
+    },
+    "_channel": {
+      "__id__": 76
+    }
+  },
+  {
+    "__type__": "cc.animation.TrackPath",
+    "_paths": [
+      {
+        "__id__": 74
+      },
+      {
+        "__id__": 75
+      },
+      "string"
+    ]
+  },
+  {
+    "__type__": "cc.animation.HierarchyPath",
+    "path": "ConfirmButton/Label"
+  },
+  {
+    "__type__": "cc.animation.ComponentPath",
+    "component": "cc.Label"
+  },
+  {
+    "__type__": "cc.animation.Channel",
+    "_curve": {
+      "__id__": 77
+    }
+  },
+  {
+    "__type__": "cc.ObjectCurve",
+    "_times": [
+      1.5
+    ],
+    "_values": [
+      "Confirm"
+    ]
   },
   {
     "__type__": "cc.AnimationClipAdditiveSettings",
