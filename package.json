@@ -6,5 +6,8 @@
   },
   "dependencies": {
     "@solana/web3.js": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1"
   }
 }

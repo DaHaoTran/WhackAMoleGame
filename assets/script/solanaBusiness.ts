@@ -5,18 +5,33 @@ const { ccclass, property } = _decorator;
 @ccclass('solanaBusiness')
 export class solanaBusiness extends Component {
   @property(Node)
-  connectWalletNode: Node;
+  connectWalletNode: Node = null;
   @property(Node)
-  accountLabel: Node;
+  accountLabel: Node = null;
+  @property(Node)
+  subMenuLabel: Node = null;
+  @property(Node)
+  subMenuNode: Node = null;
+  @property(Node)
+  menuNode: Node = null;
   private wallet: any;
+  private connection: Connection;
+  private publicKey: PublicKey;
+  private accountInfo: Connection;
+  private accountData: any;
   //private lamports_per_sol: any = solanaWeb3.LAMPORTS_PER_SOL;
 
   protected start(): void {
+    //Lấy các node
     this.connectWalletNode = find('Menu/connectWalletButton');
     this.accountLabel = find('Menu/accountLabel');
+    this.subMenuLabel = find('Menu/SubMenu/Label');
+    this.subMenuNode = find('Menu/SubMenu');
+    this.menuNode = find('Menu');
   }
 
   async onLoad() {
+      //Khai báo với Solana Web3.js
       await this.loadSolanaWeb3Script();
   }
 
@@ -41,8 +56,19 @@ export class solanaBusiness extends Component {
 
   connectWallet() {
     (async () => {
+      //Kiểm tra ví hợp lệ
+      if (!window.solana || !window.solana.isPhantom) {
+        if(this.subMenuLabel) {this.subMenuLabel.getComponent(Label).string = 'Wallet must be phatom, please installed phantom wallet and try again !';}
+        if(this.subMenuNode) {this.subMenuNode.active = true;}
+        setTimeout(() => {
+          this.subMenuLabel.getComponent(Label).string = '';
+          this.subMenuNode.active = false; 
+        }, 3500);
+        return;
+      }
+      //Kết nối ví
       try {
-        this.wallet = await window.solana.connect();
+        this.wallet = await window.solana.connect(); 
       } catch (err) {
         console.log(err);
       }
@@ -51,7 +77,7 @@ export class solanaBusiness extends Component {
       "connect",
       () => (
         this.connectWalletNode.active = false,
-        this.accountLabel.getComponent(Label).string = "Hi, " + this.wallet.publicKey.toString()
+        this.menuNode.emit('connected-wallet')
       )
     );
   }
