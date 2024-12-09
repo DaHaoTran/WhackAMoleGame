@@ -15,6 +15,8 @@ export class menu extends Component {
     subMenuLabel: Node = null;
     @property(Node)
     subMenuNode: Node = null;
+    @property(Node)
+    selectNode: Node = null;
     private isConnected: boolean = false;
 
     protected start(): void {
@@ -28,6 +30,8 @@ export class menu extends Component {
         this.subMenuNode = find('Menu/SubMenu');
         //Lấy sub menu label node
         this.subMenuLabel = find('Menu/SubMenu/Label');
+        //Lấy select node
+        this.selectNode = find('Select');
     }
 
     protected onLoad(): void {
@@ -59,12 +63,12 @@ export class menu extends Component {
         director.end();
     }
 
-    ChestGame() {
+    SelectGame() {
         //Phát select sound
         this.selectSoundNode.getComponent(AudioSource).play();
         //Kiểm tra kết nối ví
         if(this.isConnected) {
-            //Do sm
+            if(this.selectNode) { this.selectNode.active = true;}
         }
         else {
             if(this.subMenuLabel) {this.subMenuLabel.getComponent(Label).string = 'This feature need to be connect wallet !';}
