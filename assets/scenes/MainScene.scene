@@ -5637,6 +5637,7 @@
     "subMenuLabel": null,
     "subMenuNode": null,
     "menuNode": null,
+    "chestNode": null,
     "_id": "2cVOs7Mw1GkoFWzn2K5ATJ"
   },
   {
@@ -5664,7 +5665,7 @@
         "__id__": 181
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 186
@@ -5930,6 +5931,9 @@
     ],
     "_active": false,
     "_components": [
+      {
+        "__id__": 169
+      },
       {
         "__id__": 170
       },
@@ -6449,9 +6453,6 @@
     "clickEvents": [
       {
         "__id__": 168
-      },
-      {
-        "__id__": 169
       }
     ],
     "_interactable": true,
@@ -6504,18 +6505,8 @@
       "__id__": 154
     },
     "component": "",
-    "_componentId": "28eee47XAJDYrp0gcLxjwJB",
-    "handler": "OpenChest",
-    "customEventData": ""
-  },
-  {
-    "__type__": "cc.ClickEvent",
-    "target": {
-      "__id__": 154
-    },
-    "component": "",
-    "_componentId": "28eee47XAJDYrp0gcLxjwJB",
-    "handler": "CloseChest",
+    "_componentId": "4a06baJ8X5JAaDi1Mok1QHd",
+    "handler": "sendMoney",
     "customEventData": ""
   },
   {
@@ -6580,6 +6571,24 @@
     "backgroundGameNode": null,
     "OpenSoundNode": null,
     "_id": "f6jNPOZFpBTIKz7DX6APx5"
+  },
+  {
+    "__type__": "4a06baJ8X5JAaDi1Mok1QHd",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 154
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "connectWalletNode": null,
+    "accountLabel": null,
+    "subMenuLabel": null,
+    "subMenuNode": null,
+    "menuNode": null,
+    "chestNode": null,
+    "_id": "7cpQQ4HdhOIbbiqRnqY2f6"
   },
   {
     "__type__": "cc.Node",
