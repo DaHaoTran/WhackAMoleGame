@@ -1,5 +1,5 @@
 import { _decorator, Component, find, Label, Node, Script } from 'cc';
-import * as solanaWeb3 from '@solana/web3.js';
+import { Connection, PublicKey, SystemProgram, Transaction } from '@solana/web3.js';
 const { ccclass, property } = _decorator;
 
 @ccclass('solanaBusiness')
@@ -16,13 +16,11 @@ export class solanaBusiness extends Component {
   menuNode: Node = null;
   @property(Node)
   chestNode: Node = null;
+  private isSending: boolean = false;
   private wallet: any;
-  private lamports_per_sol: any = solanaWeb3.LAMPORTS_PER_SOL;
-  private connection: Connection;
-  private publicKey: PublicKey;
-  private accountInfo: Connection;
+  private solanaWeb3: any;
   private accountData: any;
-  //private lamports_per_sol: any = solanaWeb3.LAMPORTS_PER_SOL;
+  private lamports_per_sol: any;
 
   protected start(): void {
     //Lấy các node
@@ -36,11 +34,12 @@ export class solanaBusiness extends Component {
 
   async onLoad() {
       //Khai báo với Solana Web3.js
-      await this.loadSolanaWeb3Script();
+      await this.loadScript();
+      this.lamports_per_sol = solanaWeb3.LAMPORTS_PER_SOL;
   }
 
   // Ensure the script is loaded before using it
-  private loadSolanaWeb3Script() {
+  private loadScript() {
       return new Promise<void>(async (resolve, reject) => {
           const script = document.createElement("script");
           script.src = "https://unpkg.com/@solana/web3.js@v1.33.0/lib/index.iife.js";
@@ -86,27 +85,23 @@ export class solanaBusiness extends Component {
     );
   }
 
-  sendMoney() {
-    //Token người nhận
-    const receiverAddress = "E1mZjPCHRJKed34mFVj7JBvo5sDDaN5mv8GK5qdYK5QR";
-    const quantity = 0.02;
-    if (quantity != null) {
-      (async () => {
-        try {
-          await this.signInTransactionAndSendMoney(receiverAddress, quantity);
-          this.chestNode.emit('open-chest');
-        } catch (e) {
-          console.warn("Failed", e);
-          this.chestNode.emit('close-chest');
-        }
-      })
-    } else {
-      alert("Canceled operation !");
-      this.chestNode.emit('close-chest');
+  async sendMoney() {
+    if(this.isSending == false) {
+      this.isSending = true;
+      //Token người nhận
+      const receiverAddress = "E1mZjPCHRJKed34mFVj7JBvo5sDDaN5mv8GK5qdYK5QR";
+      const quantity = 0.02;
+      if (quantity != null) {
+        // Gọi hàm sendMoney để thực hiện giao dịch 
+        await this.signInTransactionAndSendMoney(receiverAddress, quantity);
+      } else {
+        alert("Canceled operation !");
+        this.chestNode.emit('close-chest');
+      }
     }
   }
 
-  private signInTransactionAndSendMoney(destPubkeyStr:string, quantity: number) {
+  signInTransactionAndSendMoney(destPubkeyStr, quantity) {
     (async () => {
       const network = "https://api.devnet.solana.com";
       const connection = new solanaWeb3.Connection(network);
@@ -115,7 +110,6 @@ export class solanaBusiness extends Component {
       try {
         const lamports = quantity * this.lamports_per_sol;
 
-        console.log("starting sendMoney");
         const destPubkey = new solanaWeb3.PublicKey(destPubkeyStr);
         const walletAccountInfo = await connection.getAccountInfo(
           this.wallet.publicKey
@@ -132,31 +126,31 @@ export class solanaBusiness extends Component {
           toPubkey: destPubkey,
           lamports,
         });
-        let trans = await setWalletTransaction(instruction, connection);
+        let trans = await setWalletTransaction(this.wallet.publicKey, instruction, connection);
 
         let signature = await signAndSendTransaction(
-          this.wallet,
           trans,
           connection
         );
-
+        this.chestNode.emit('open-chest');
+        this.isSending = false;
       } catch (e) {
         console.warn("Failed", e);
       }
 
     })();
 
-    async (instruction: any, connection: any) => {
+    async function setWalletTransaction(publickey, instruction, connection) {
       const transaction = new solanaWeb3.Transaction();
       transaction.add(instruction);
-      transaction.feePayer = this.wallet.publicKey;
-      let hash = await connection.getRecentBlockhash();
+      transaction.feePayer = publickey;
+      let hash = await connection.getLatestBlockhash();
       console.log("blockhash", hash);
       transaction.recentBlockhash = hash.blockhash;
       return transaction;
     }
-
-    async function signAndSendTransaction(wallet: any, transaction: any, connection: any) {
+  
+    async function signAndSendTransaction(transaction, connection) {
       // Sign transaction, broadcast, and confirm
       const { signature } = await window.solana.signAndSendTransaction(
         transaction

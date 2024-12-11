@@ -46,7 +46,7 @@
     "_events": [],
     "_embeddedPlayers": [],
     "_additiveSettings": {
-      "__id__": 78
+      "__id__": 77
     },
     "_auxiliaryCurveEntries": []
   },
@@ -775,7 +775,7 @@
         "leftTangentWeight": 1,
         "easingMethod": 0,
         "__editorExtras__": {
-          "tangentMode": 0
+          "broken": null
         }
       },
       {
@@ -788,7 +788,9 @@
         "leftTangent": 0,
         "leftTangentWeight": 1,
         "easingMethod": 0,
-        "__editorExtras__": null
+        "__editorExtras__": {
+          "broken": null
+        }
       }
     ],
     "preExtrapolation": 1,
@@ -818,7 +820,7 @@
         "leftTangentWeight": 1,
         "easingMethod": 0,
         "__editorExtras__": {
-          "tangentMode": 0
+          "broken": null
         }
       },
       {
@@ -831,7 +833,9 @@
         "leftTangent": 0,
         "leftTangentWeight": 1,
         "easingMethod": 0,
-        "__editorExtras__": null
+        "__editorExtras__": {
+          "broken": null
+        }
       }
     ],
     "preExtrapolation": 1,
@@ -861,7 +865,7 @@
         "leftTangentWeight": 1,
         "easingMethod": 0,
         "__editorExtras__": {
-          "tangentMode": 0
+          "broken": null
         }
       },
       {
@@ -874,7 +878,9 @@
         "leftTangent": 0,
         "leftTangentWeight": 1,
         "easingMethod": 0,
-        "__editorExtras__": null
+        "__editorExtras__": {
+          "broken": null
+        }
       }
     ],
     "preExtrapolation": 1,
@@ -1110,7 +1116,7 @@
       "proxy": null
     },
     "_channel": {
-      "__id__": 76
+      "__id__": 75
     }
   },
   {
@@ -1119,33 +1125,26 @@
       {
         "__id__": 74
       },
-      {
-        "__id__": 75
-      },
-      "string"
+      "active"
     ]
   },
   {
     "__type__": "cc.animation.HierarchyPath",
-    "path": "ConfirmButton/Label"
-  },
-  {
-    "__type__": "cc.animation.ComponentPath",
-    "component": "cc.Label"
+    "path": "OpenButton"
   },
   {
     "__type__": "cc.animation.Channel",
     "_curve": {
-      "__id__": 77
+      "__id__": 76
     }
   },
   {
     "__type__": "cc.ObjectCurve",
     "_times": [
-      1.5
+      0
     ],
     "_values": [
-      "Confirm"
+      false
     ]
   },
   {
