@@ -17,6 +17,8 @@ export class molehitted extends Component {
     scoreLabel: Node = null;
     @property(Node)
     highScoreLabel: Node = null;
+    @property(Node)
+    colorEfect: Color = null;
     private counthit: number = 0
     private moleScale: any = { 'x': 0.951, 'y': 0.317 }
     start() {
@@ -45,6 +47,12 @@ export class molehitted extends Component {
         systemEvent.on('game-paused', this.onGamePaused, this);
         //Đăng ký sự kiện hoặc điều kiện để reset game
         this.node.on('back-menu', this.resetGame, this);
+        //Đăng ký sự kiện hoặc điều kiện để đặt màu hiệu ứng
+        this.node.on('change-theme', this.changeTheme, this);
+    }
+
+    changeTheme(colorset: Color) {
+        this.colorEfect = colorset;
     }
 
     onGamePaused() {
@@ -71,6 +79,8 @@ export class molehitted extends Component {
             else {
                 //Play hiệu hứng đập trúng chuột
                 this.hitSoundNode.getComponent(AudioSource).play();
+                //Thay đổi màu Mole
+                this.moleNode.getComponent(Sprite).color = this.colorEfect; 
                 //Tăng hit count
                 this.counthit += 1;
                 //Hiển thị hit count
