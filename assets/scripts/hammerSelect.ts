@@ -10,7 +10,7 @@ export class hammerSelect extends Component {
         },
         {
             'name': 'Christmas',
-            'color': new Color(88, 206, 243, 255)
+            'color': new Color(88, 206, 243)
         }
     ] 
     private skinLength: number = 0;
@@ -59,7 +59,7 @@ export class hammerSelect extends Component {
             else {
                 this.indx = 0;
             }
-            this.visualSkin(this.skinNodes[this.indx]);
+            this.visualSkin(this.skinNodes[this.indx].node);
         }
     }
 
@@ -73,7 +73,7 @@ export class hammerSelect extends Component {
             else {
                 this.indx = this.skinLength - 1;
             }
-            this.visualSkin(this.skinNodes[this.indx]);
+            this.visualSkin(this.skinNodes[this.indx].node);
         }
     }
 
@@ -112,7 +112,7 @@ export class hammerSelect extends Component {
                 }
             }
             //Phát sự kiện đổi color effect
-            this.moleNode.emit('change-theme', this.skinNodes[this.indx].color);
+            //this.moleNode.emit('change-theme', this.skinNodes[this.indx].color);
             //Thay đổi trạng thái select button
             if(this.selectButtonLabel) {
                 this.selectButtonLabel.getComponent(Label).string = "Selected";
@@ -120,6 +120,7 @@ export class hammerSelect extends Component {
             else {
                 this.selectButtonLabel.getComponent(Label).string = "Error";
             }
+            this.isGenerating = false;
         }
     }
 }

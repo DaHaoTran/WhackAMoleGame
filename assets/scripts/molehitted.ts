@@ -17,9 +17,8 @@ export class molehitted extends Component {
     scoreLabel: Node = null;
     @property(Node)
     highScoreLabel: Node = null;
-    @property(Node)
-    colorEfect: Color = null;
-    private counthit: number = 0
+    public colorEfect: Color = new Color(255, 255, 255);
+    private counthit: number = 0;
     private moleScale: any = { 'x': 0.951, 'y': 0.317 }
     start() {
         //Reset hit count
@@ -48,12 +47,13 @@ export class molehitted extends Component {
         //Đăng ký sự kiện hoặc điều kiện để reset game
         this.node.on('back-menu', this.resetGame, this);
         //Đăng ký sự kiện hoặc điều kiện để đặt màu hiệu ứng
-        this.node.on('change-theme', this.changeTheme, this);
+        //this.node.on('change-theme', this.changeTheme, this);
     }
 
-    changeTheme(colorset: Color) {
+    /*changeTheme(colorset: Color) {
         this.colorEfect = colorset;
-    }
+        console.log(this.colorEfect);
+    }*/
 
     onGamePaused() {
         this.showresult();

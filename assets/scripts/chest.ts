@@ -6,14 +6,10 @@ const { ccclass, property } = _decorator;
 @ccclass('chest')
 export class chest extends Component {
     @property(Node)
-    backgroundGameNode: Node = null;
-    @property(Node)
     OpenSoundNode: Node = null;
-    private isOpen: boolean = false;
 
+    private isOpen: boolean = false;
     start() {
-        // Lấy background game node
-        this.backgroundGameNode = find('Select/BackgroundGame');
         // Lấy open sound node
         this.OpenSoundNode = find('Sounds/OpenChest');
     }
@@ -27,15 +23,13 @@ export class chest extends Component {
 
     ShowChest() {
         this.isOpen = false;
-        if(this.backgroundGameNode) {
-            this.backgroundGameNode.getComponent(Sprite).color = new Color(128,128,128);
-        }
         this.node.active = true;
         this.node.getComponent(Animation)?.play('showchest');
     }
 
     OpenChest() {
         if(this.isOpen == false) {
+            this.isOpen = true;
             this.node.getComponent(Animation).play('openchest');
             //play open sound
             setTimeout(() => {
@@ -44,18 +38,8 @@ export class chest extends Component {
                 }
             }, 500);
             setTimeout(() => {
-                this.isOpen = true;
+                this.isOpen = false;
             }, 1000);
-        }
-    }
-
-    CloseChest() {
-        if(this.isOpen) {
-            this.isOpen = false;
-            this.node.active = false;
-            if(this.backgroundGameNode) {
-                this.backgroundGameNode.getComponent(Sprite).color = new Color(255,255,255);
-            }
         }
     }
 }

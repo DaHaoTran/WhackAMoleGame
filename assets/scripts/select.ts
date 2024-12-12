@@ -9,6 +9,8 @@ export class select extends Component {
     chestNode: Node = null;
     @property(Node)
     backgroundGameNode: Node = null;
+    @property(Node)
+    hammerSelectNode: Node = null;
 
     protected start(): void {
         //Lấy select sound node
@@ -17,6 +19,29 @@ export class select extends Component {
         this.chestNode = find('Select/Chest');
         //Lấy background game node
         this.backgroundGameNode = find('Select/BackgroundGame');
+        //Lấy hammer select node
+        this.hammerSelectNode = find('Select/HammerSelect');
+    }
+
+    onBeforeOpenChest() {
+        if(this.backgroundGameNode) {
+            this.backgroundGameNode.getComponent(Sprite).color = new Color(188, 188, 188);
+        }
+        if(this.hammerSelectNode) {
+            this.hammerSelectNode.active = false;
+        }
+    }
+
+    onConfirmChest() {
+        if(this.backgroundGameNode) {
+            this.backgroundGameNode.getComponent(Sprite).color = new Color(255, 255, 255);
+        }
+        if(this.hammerSelectNode) {
+            this.hammerSelectNode.active = true;
+        }
+        if(this.chestNode) {
+            this.chestNode.active = false;
+        }
     }
 
     EscapeSelect() {
@@ -29,6 +54,10 @@ export class select extends Component {
         //Set màu cho background game node
         if(this.backgroundGameNode) {
             this.backgroundGameNode.getComponent(Sprite).color = new Color(255,255,255);
+        }
+        //Hiện hammer select node
+        if(this.hammerSelectNode) {
+            this.hammerSelectNode.active = true;
         }
     }
 }

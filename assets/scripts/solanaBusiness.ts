@@ -114,12 +114,10 @@ export class solanaBusiness extends Component {
         const walletAccountInfo = await connection.getAccountInfo(
           this.wallet.publicKey
         );
-        console.log("wallet data size", walletAccountInfo?.data.length);
 
         const receiverAccountInfo = await connection.getAccountInfo(
           destPubkey
         );
-        console.log("receiver data size", receiverAccountInfo?.data.length);
 
         const instruction = solanaWeb3.SystemProgram.transfer({
           fromPubkey: this.wallet.publicKey,
