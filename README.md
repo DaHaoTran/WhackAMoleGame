@@ -1,4 +1,4 @@
-# Whack ![mole2](https://github.com/user-attachments/assets/75b34a9c-733c-4c83-b185-28fb7e17dc82) mole game 
+# Whack ![mole2](https://github.com/user-attachments/assets/f189a498-8bc6-4701-b8d2-193b3c9c2569) mole game 
 ## Abount game
 This is a traditional mouse-smashing game, combining the Solana blockchain element into the function of opening game items
 ## Demo functions game
